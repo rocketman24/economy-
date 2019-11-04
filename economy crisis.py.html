@@ -1,0 +1,46 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# # Work on Nigeria economy crisis from 1954 to 2014
+
+# In[80]:
+
+
+import pandas as pd 
+africa_eco = pd.read_csv('african_crises.csv')
+africa_eco_head = africa_eco.head(15)
+africa_eco_head
+
+
+# In[79]:
+
+
+
+nigeria_eco = africa_eco.iloc[650:708]
+
+### find years nigeria had bank crisis###
+crisis_result = nigeria_eco["banking_crisis"] == "crisis"
+nigeria_crisis_result = nigeria_eco[crisis_result]
+
+### slice the data for only years , exchange rate and inflation per annual###
+nig_yr_exch_inf = nigeria_crisis_result[["year", "exch_usd", "inflation_annual_cpi"]]
+nig_yr_exch_inf
+
+
+# In[78]:
+
+
+### finding of years with exchange rate above $100 and inflation above 10% ###
+exch_above = nig_yr_exch_inf["exch_usd"] > 100
+inf_above = nig_yr_exch_inf["inflation_annual_cpi"] > 10
+combine_exch_inf = exch_above & inf_above
+only_yr_exch_inf = ["year","exch_usd","inflation_annual_cpi"]
+result = nigeria_crisis_result.loc[combine_exch_inf,only_yr_exch_inf]
+result
+
+
+# In[ ]:
+
+
+
+
